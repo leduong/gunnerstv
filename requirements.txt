@@ -13,6 +13,7 @@ iron-core==0.1.0
 iso8601==0.1.4
 kombu==2.4.7
 lxml==3.1beta1
+psycopg2==2.4.6
 python-dateutil==1.5
 pytz==2012h
 redis==2.6.2

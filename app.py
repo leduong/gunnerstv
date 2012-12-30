@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gunnerstv.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ctpybgswckifxw:oP4tUGoWEVei50r5Qmk69o4JnN@ec2-54-243-248-219.compute-1.amazonaws.com:5432/d7rmlciec62tam'
 db = SQLAlchemy(app)
 
 

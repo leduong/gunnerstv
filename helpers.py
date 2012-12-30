@@ -6,13 +6,9 @@ from datetime import datetime,timedelta
 import json
 import pytz
 
-"""
-http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:US/clubId:1006/rangeType:dateSeason
-"""
-
 #Scrap fixtures from premierleague.com
 def get_us_data():
-	url = "http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:US/clubId:1006/rangeType:dateSeason"
+	url = "http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:US/clubId:1006/rangeType:dateMonth"
 	r = requests.get(url)
 	data = r.json
 	uktz = pytz.timezone('GMT')
@@ -22,7 +18,6 @@ def get_us_data():
 			channel_us = broadcast['channel']
 			date = broadcast['date'] + " " + broadcast['time']
 			date = datetime.strptime(date,'%A %d %B %Y %H:%M')
-			print date
 			if Fixture.query.filter_by(date=date).first():
 				entry = Fixture.query.filter_by(date=date).first()
 				entry.channel_us = channel_us
