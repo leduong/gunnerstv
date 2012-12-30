@@ -1,0 +1,205 @@
+<html>
+<head>
+	<title>Where can I watch Arsenal FC?</title>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/jquery.backstretch.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+<style type="text/css">
+@font-face {
+    font-family: 'intro_inlineregular';
+    src: url('/static/font/intro_inline-webfont.eot');
+    src: url('/static/font/intro_inline-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/font/intro_inline-webfont.woff') format('woff'),
+         url('/static/font/intro_inline-webfont.ttf') format('truetype'),
+         url('/static/font/intro_inline-webfont.svg#intro_inlineregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+.background-opacity{
+	opacity:0.7;
+}
+
+h1 {
+	font-family: 'intro_inlineregular';
+	font-size: 4em;
+	color:#aa0000;
+	text-shadow:2px 2px 0px #FEB745;
+	border-bottom: 3px solid #7D8077;
+	line-height: 60px;
+}
+
+h2 {
+	margin:12% 12% 11% 12%;
+	font-size: 200px;
+}
+
+p {
+	font-size: 20px;
+}
+
+.opponenent {
+	font-weight:bold;
+}
+
+.time{
+	background-color: rgba(255, 255, 255, 0.26);
+	padding: 3px
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+.tv-channel {
+	margin-top:20px;
+	margin-bottom: 30px;
+	width: 510x;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.26);
+}
+
+th {
+	border-bottom: 2px solid #7D8077;
+	padding: 10px;
+	width: 168px;
+}
+td {
+	height: 50px;
+}
+
+.SS1 {
+	background: url('/static/img/ss1.png') no-repeat center;
+}
+.SS2 {
+	background: url('/static/img/ss2.png') no-repeat center;
+}
+.ESPN {
+	background: url('/static/img/espn.png') no-repeat center;
+}
+
+a {
+	color:#aa0000;
+	font-weight: bold
+}
+
+#streams {
+	background-color: rgba(255, 255, 255, 0.26);
+	width: 340px;
+}
+
+ul {
+	list-style-type: none;
+	text-align: left;
+}
+
+.sharing {
+	margin-top: 20px;
+}
+
+
+</style>
+
+</head>
+<body>
+{% if fixture.home == True %}
+{% set at = 'at home'%}
+{% else %}
+{% set at = 'away'%}
+{% endif %}
+<div id="fb-root"></div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span1"></div>
+			<div class="span10 pagination-centered">
+				<div class="content center">
+					<h1>Is Arsenal On TV Today?</h1>
+					{% if today == True %}
+						<h2>YES!</h2>
+						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
+						<div class="center">
+							<table class="tv-channel center">
+								<thead>
+									<tr>
+										<th>In UK</th>
+										<th>In US</th>
+										<th>Other Country?</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="warning">
+										<td class="{{fixture.channel}}"></td>
+										<td>Comming Soon...</td>
+										<td>Comming Soon...</td>
+									</tr>
+								</tbody>
+							</table>
+							<a href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a>
+							<!-- STREAM ACCORDEON -->
+							<div id="streams" class="collapse center">
+								<ul>
+									<li>stream</li>
+									<li>stream</li>
+									<li>stream</li>
+									<li>stream</li>
+								</ul>
+							</div>
+						</div>
+					{% else %}
+					<h2>NO :(</h2>
+					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
+					{% endif %}
+				</div>
+				<div class="sharing center">
+					<table class="center">
+						<tr>
+							<td>
+								<div>
+									<a href="https://twitter.com/share" class="twitter-share-button" data-text="Check this cool description" data-via="gunnerstv" data-related="lifeofFPL" data-hashtags="AFCGooners" data-dnt="true">Tweet</a>
+								</div>
+							</td>
+							<td>
+								<div class="fb-like" data-href="http://arethegunnerson.tv" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="verdana"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="span1"></div>
+		</div>
+	</div>
+
+
+
+<!-- 	{% if today == True %}
+		The Gunner are playing Today against {{ fixture.opponenent }} at {{ fixture.date.hour }}:{{ fixture.date.minute }} on {{fixture.channel}}(UK)
+	{% else %}
+	The gunner are not playing today. Next Fixture is on {{ fixture.date.hour }}:{{ fixture.date.minute }}
+	{% endif %} -->
+
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.backstretch("/static/img/bg2.jpeg");
+	$('.backstretch').addClass('background-opacity')
+
+})
+
+//Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+//Facebook
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=105491682958519";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+</script>
+</html>
