@@ -1,7 +1,19 @@
 <html>
 <head>
+{% if today == True %}
+{% set share = 'Arsenal is playing today vs {{fixture.opponenent}} and I know which TV Channels or free live streams to watch thx to http://bit.ly/RoN3O0 #AFC' %}
+{%else %}
+{% set share = 'When Arsena is playing I know which TV channels or free live stream to watch thanks to http://bit.ly/RoN3O0 via @gunnerstv #gooners' %}
+{% endif %}
+
+
 	<title>Where can I watch Arsenal FC?</title>
 	<meta name="description" content="Most of the time, you never know when Arsenal FC is playing. Come on our site to see on which Free Live Stream, UK & US channels the Gunners are playing today! Everything is free!">
+	<!-- Facebook Meta shit -->
+	<meta property="og:image" content="/static/img/fb_gunners.jpeg"/>
+	<meta property="og:title" content="{{share}}"/>
+	<meta property="og:url" content="http://gunnerstv.herokuapp.com"/>
+	<meta property="og:site_name" content="Is Arsenal FC Playing Today?"/>
 
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/jquery.backstretch.min.js"></script>
@@ -111,6 +123,9 @@ ul {
 {% else %}
 {% set at = 'away'%}
 {% endif %}
+
+
+
 <div id="fb-root"></div>
 
 	<div class="container-fluid">
@@ -162,7 +177,7 @@ ul {
 						<tr>
 							<td>
 								<div>
-									<a href="https://twitter.com/share" class="twitter-share-button" data-text="Check this cool description" data-via="gunnerstv" data-related="lifeofFPL" data-hashtags="AFCGooners" data-dnt="true">Tweet</a>
+									<a href="https://twitter.com/share" class="twitter-share-button" data-text"{{share}}" data-via="gunnerstv" data-related="lifeofFPL" data-hashtags="AFCGooners" data-dnt="true">Tweet</a>
 								</div>
 							</td>
 							<td>
