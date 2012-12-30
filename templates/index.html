@@ -1,5 +1,6 @@
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% if today == True %}
 {% set share = 'Arsenal is playing today vs {{fixture.opponenent}} and I know which TV Channels or free live streams to watch thx to http://bit.ly/RoN3O0 #AFC' %}
 {%else %}
@@ -44,12 +45,18 @@ h1 {
 	text-shadow:2px 2px 0px #FEB745;
 	border-bottom: 3px solid #7D8077;
 	line-height: 60px;
+	display:inline-block;
 }
 
 h2 {
 	margin:12% 12% 11% 12%;
 	font-size: 200px;
 }
+h3 {
+	margin:12% 12% 11% 12%;
+	font-size: 60px;
+}
+
 
 p {
 	font-size: 20px;
@@ -114,6 +121,22 @@ ul {
 	margin-top: 20px;
 }
 
+.footer {
+	background-color: #aa0000;
+	color:white;
+	position:fixed;
+	bottom: 0;
+	width: 100%
+}
+
+.footer p {
+	font-size: 10px;
+	font-weight: normal;
+}
+
+.footer a {
+	color:white;
+}
 
 </style>
 
@@ -134,9 +157,10 @@ ul {
 			<div class="span1"></div>
 			<div class="span10 pagination-centered">
 				<div class="content center">
-					<h1>Is Arsenal On TV Today?</h1>
+					<h1 class="center">Is Arsenal On TV Today?</h1>
 					{% if today == True %}
-						<h2>YES!</h2>
+						<h2 class="hidden-phone hidden-tablet">YES!</h2>
+						<h3 class="hidden-desktop">YES!</h3>
 						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
 						<div class="center">
 							<table class="tv-channel center">
@@ -169,7 +193,9 @@ ul {
 							</div>
 						</div>
 					{% else %}
-					<h2>NO :(</h2>
+					<h2 class="hidden-phone hidden-tablet">NO :(</h2>
+					<h3 class="hidden-desktop">NO :(</h3>
+
 					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
 					{% endif %}
 				</div>
@@ -191,14 +217,11 @@ ul {
 			<div class="span1"></div>
 		</div>
 	</div>
-
-
-
-<!-- 	{% if today == True %}
-		The Gunner are playing Today against {{ fixture.opponenent }} at {{ fixture.date.hour }}:{{ fixture.date.minute }} on {{fixture.channel}}(UK)
-	{% else %}
-	The gunner are not playing today. Next Fixture is on {{ fixture.date.hour }}:{{ fixture.date.minute }}
-	{% endif %} -->
+	<div class="row">
+		<div class="span12 footer">
+				<p class="pull-right">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
+		</div>
+	</div>
 
 </body>
 <script type="text/javascript">
