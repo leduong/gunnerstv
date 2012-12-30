@@ -45,7 +45,7 @@ def index():
 		today = True
 	remaining_day = (fixture_date - now).days
 	fixture = Fixture.query.filter_by(date=fixture_date).first()
-	print now,fixture.date, now-fixture.date
+	print now,fixture.date, fixture.date-now
 	return render_template('index.html',fixture=fixture,today=today,remaining_day=remaining_day)
 
 
