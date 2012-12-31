@@ -8,7 +8,7 @@
 {% endif %}
 
 
-	<title>Where can I watch Arsenal FC?</title>
+	<title>Where can I watch Arsenal FC in the US or the UK?</title>
 	<meta name="description" content="Most of the time, you never know when Arsenal FC is playing. Come on our site to see on which Free Live Stream, UK & US channels the Gunners are playing today! Everything is free!">
 	<!-- Facebook Meta shit -->
 	<meta property="og:image" content="http://gunnerstv.herokuapp.com/static/img/fb_gunners.jpeg"/>
@@ -238,6 +238,20 @@ $(document).ready(function(){
 	$('.backstretch').addClass('background-opacity')
 
 })
+
+//Google Analytics
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37359304-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+
+
 
 //Twitter
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
