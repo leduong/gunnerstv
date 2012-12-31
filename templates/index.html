@@ -182,9 +182,14 @@ ul {
 							<a href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a>
 							<!-- STREAM ACCORDEON -->
 							<div id="streams" class="collapse center">
-								{% if stream != None %}
+								{% if streams != None %}
+									<ul>
+									{% for s in streams %}
+										<li><a href="{{s.link}}">Stream {{s.id}} (via lshunter.tv)</a></li>
+									{% endfor %}
+									</ul>
 								{% else %}
-								<p>Come back 5 mintues before the match to see the Free live Stream Links!</p>
+									<p>Come back 5 mintues before the match to see the Free live Stream Links!</p>
 								{% endif %}
 
 								<!-- <ul>
