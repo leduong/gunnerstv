@@ -11,8 +11,8 @@ db = SQLAlchemy(app)
 
 
 class Stream(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	link = db.Column(db.String(300))
+	id = db.Column(db.Integer)
+	link = db.Column(db.String(300), primary_key=True)
 
 	def __init__(self,link):
 		self.link = link
