@@ -9,6 +9,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ctpybgswckifxw:oP4tUGoWEVei5
 db = SQLAlchemy(app)
 
 
+
+class Stream(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	link = db.Column(db.String(300))
+
+	def __init__(self,link):
+		self.link = link
+
+	def __repr___(self):
+		return '<Link is %r>'%self.link
+
+
 class Fixture(db.Model):
     id = db.Column(db.Integer)
     opponenent = db.Column(db.String(80))
@@ -45,7 +57,13 @@ def index():
 		today = True
 	remaining_day = (fixture_date.date() - now.date()).days
 	fixture = Fixture.query.filter_by(date=fixture_date).first()
-	return render_template('index.html',fixture=fixture,today=today,remaining_day=remaining_day)
+
+	if Stream.query.all():
+		streams = Stream.query.all()
+	else:
+		streams = None
+
+	return render_template('index.html',streams=streams,fixture=fixture,today=today,remaining_day=remaining_day)
 
 
 

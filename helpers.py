@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from app import db
-from app import Fixture
+from app import db,Fixture,Stream
 from datetime import datetime,timedelta
 import json
 import pytz
+import re
 
 #Scrap fixtures from premierleague.com
 def get_us_data():
@@ -77,8 +77,20 @@ def scrap_fixture_time():
 				db.session.add(fixture)
 				db.session.commit()
 
+def get_stream():
+	url = "http://atdhe.eu/soccer"
+	html = requests.get(url).text
+	soup = BeautifulSoup(html,'lxml')
+
+	streams = soup.find_all(text=re.compile('Arsenal'))
+	for s in streams:
+		link = Stream(s.parent['href'])
+		db.session.add(link)
+		db.session.commit()
+
 scrap_fixture_time()
 get_us_data()
+get_stream()
 
 
 
