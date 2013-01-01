@@ -171,14 +171,14 @@ a:hover {
 		<div class="row-fluid">
 			<div class="span1"></div>
 			<div class="span10 pagination-centered">
-				<div class="content center">
-					<h1 class="center">Is Arsenal On TV Today?</h1>
+				<div class="content">
+					<h1>Is Arsenal On TV Today?</h1>
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
 						<h3 class="hidden-desktop">YES!</h3>
 						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }} (GMT)</span></p>
 						<div class="center well tv-channel">
-							<table class="center pagination-centered">
+							<table class="pagination-centered">
 								<thead>
 									<tr>
 										<th>In UK</th>
@@ -190,7 +190,7 @@ a:hover {
 									<tr class="warning">
 										<td class="{{fixture.channel}}"></td>
 										<td>{{fixture.channel_us}}</td>
-										<td>Comming Soon...</td>
+										<td>Coming Soon...</td>
 									</tr>
 									<tr>
 										<td id="streamlink" colspan="3"><a href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a></td>
