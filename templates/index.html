@@ -78,6 +78,10 @@ p {
 	text-align: center;
 }
 
+.channels {
+	height: 85px;
+}
+
 .tv-channel a {
 	color:#aa0000;
 }
@@ -99,6 +103,10 @@ td {
 }
 .ESPN {
 	background: url('/static/img/espn.png') no-repeat center;
+}
+
+.espn-desportes {
+	background: url('/static/img/espn-desportes.png') no-repeat center;
 }
 
 #streamlink {
@@ -187,9 +195,9 @@ a:hover {
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="warning">
+									<tr class="channels">
 										<td class="{{fixture.channel}}"></td>
-										<td>{{fixture.channel_us}}</td>
+										<td class="espn-desportes"></td>
 										<td>Coming Soon...</td>
 									</tr>
 									<tr>
