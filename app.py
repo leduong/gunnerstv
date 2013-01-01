@@ -56,7 +56,7 @@ def index():
 	if fixture_date.date() == now.date():
 		today = True
 	remaining_day = (fixture_date.date() - now.date()).days
-	fixture = Fixture.query.filter_by(date=fixture_date).first()
+	fixture = Fixture.query.filter_by(opponenent="Southampton").first()
 
 	if Stream.query.all():
 		streams = Stream.query.all()
