@@ -1,14 +1,11 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% set share = 'Thanks to @gunnerstv, When Arsenal is playing I know which TV channels or free live stream to watch -> http://bit.ly/RoN3O0 #AFC' %}
-
-
 	<title>Where can I watch Arsenal FC in the US or the UK?</title>
 	<meta name="description" content="Most of the time, you never know when Arsenal FC is playing. Come on our site to see on which Free Live Stream, UK & US channels the Gunners are playing today! Everything is free!">
 	<!-- Facebook Meta shit -->
 	<meta property="og:image" content="http://gunnerstv.herokuapp.com/static/img/fb_gunners.jpeg"/>
-	<meta property="og:title" content="{{share}}"/>
+	<meta property="og:title" content="Are the Gunners on TV Today?"/>
 	<meta property="og:url" content="http://gunnerstv.herokuapp.com"/>
 	<meta property="og:site_name" content="Is Arsenal FC Playing Today?"/>
 
@@ -159,6 +156,7 @@ a:hover {
 
 .footer a {
 	color:white;
+	font-weight: bold
 }
 
 </style>
@@ -246,7 +244,8 @@ a:hover {
 	</div>
 	<div class="row">
 		<div class="span12 footer">
-				<p class="pull-right center">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
+				<p class="pull-left">Find a bug or have feedback?<a href="http://twitter.com/copypastaa" target="_blank"> Contact me via Twitter</a></p>
+				<p class="pull-right">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
 		</div>
 	</div>
 
@@ -271,10 +270,6 @@ $(document).ready(function(){
 
 
 
-
-//Twitter
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-
 //Facebook
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -283,6 +278,11 @@ $(document).ready(function(){
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=105491682958519";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+
+//Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
 
 
 </script>
