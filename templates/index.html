@@ -11,8 +11,6 @@
 
 	<link rel="icon" type="image/png" href="/static/img/icon.png">
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
-	<script src="/static/js/jquery.localtime-0.5.js"></script>
-	<script type="text/javascript">$.localtime.setFormat("HH:mm");</script>
 	<script src="/static/js/jquery.backstretch.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css">
@@ -68,7 +66,7 @@ p {
 	font-weight:bold;
 }
 
-.time{
+.localtime{
 	background-color: rgba(255, 255, 255, 0.26);
 	padding: 3px
 }
@@ -191,7 +189,7 @@ a:hover {
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
 						<h3 class="hidden-desktop">YES!</h3>
-						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime">{{ fixture.date }}</span></p>
+						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime"></span></p>
 						<div class="center well tv-channel">
 							<table class="pagination-centered">
 								<thead>
@@ -267,9 +265,10 @@ $(document).ready(function(){
 
 })
 
-	// var date = new Date('{{fixture.date}} UTC');
-	// $('.localtime').append(date.toString())
-	d = '{{fixture.date}}'
+d = '{{fixture.date}} UTC'
+date = new Date(d)
+$('.localtime').append(date.getHours()+':'+date.getMinutes())
+
 
 //Google Analytics
   var _gaq = _gaq || [];
