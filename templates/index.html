@@ -67,7 +67,7 @@ p {
 }
 
 .localtime{
-	background-color: rgba(255, 255, 255, 0.26);
+	background-color: rgba(255, 255, 255, 0.47);
 	padding: 3px
 }
 
@@ -189,7 +189,7 @@ a:hover {
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
 						<h3 class="hidden-desktop">YES!</h3>
-						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime"></span></p>
+						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span rel="tooltip" data-title="This is your local time!" class="localtime"></span></p>
 						<div class="center well tv-channel">
 							<table class="pagination-centered">
 								<thead>
@@ -262,6 +262,7 @@ $(document).ready(function(){
 
 	$.backstretch("/static/img/bg2.jpeg");
 	$('.backstretch').addClass('background-opacity')
+	$('.localtime').tooltip('show')
 
 })
 
