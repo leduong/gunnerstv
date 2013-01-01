@@ -11,6 +11,8 @@
 
 	<link rel="icon" type="image/png" href="/static/img/icon.png">
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/jquery.localtime-0.5.js"></script>
+	<script type="text/javascript">$.localtime.setFormat("HH:mm");</script>
 	<script src="/static/js/jquery.backstretch.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css">
@@ -118,7 +120,6 @@ td {
 	font-size: 12px;
 	width: 70%;
 	text-align: right;
-	display: inline-block;
 	padding: 0;
 	border-top:1px solid lightgrey;
 }
@@ -186,10 +187,11 @@ a:hover {
 			<div class="span10 pagination-centered">
 				<div class="content">
 					<h1>Are Arsenal On TV Today?</h1>
+
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
 						<h3 class="hidden-desktop">YES!</h3>
-						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }} (GMT)</span></p>
+						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime">{{ fixture.date })</span></p>
 						<div class="center well tv-channel">
 							<table class="pagination-centered">
 								<thead>
@@ -228,7 +230,7 @@ a:hover {
 					<h2 class="hidden-phone hidden-tablet">NO :(</h2>
 					<h3 class="hidden-desktop">NO :(</h3>
 
-					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
+					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime">{{fixture.date}}</span></p>
 					{% endif %}
 				</div>
 				<div class="sharing center">
@@ -236,7 +238,7 @@ a:hover {
 						<tr>
 							<td>
 								<div>
-									<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/RoN3O0" data-text="Thanks to @gunnerstv, When Arsenal is playing I know which TV channels or free live stream to watch -&gt;" data-hashtags="AFC">Tweet</a>
+									<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/RoN3O0" data-text='"Are #AFC on TV Today?" A webapp that give you the TV channel they are on and links to live stream.' data-hashtags="AFC">Tweet</a>
 								</div>
 							</td>
 							<td>
@@ -259,10 +261,15 @@ a:hover {
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+
 	$.backstretch("/static/img/bg2.jpeg");
 	$('.backstretch').addClass('background-opacity')
 
 })
+
+	// var date = new Date('{{fixture.date}} UTC');
+	// $('.localtime').append(date.toString())
+	d = '{{fixture.date}}'
 
 //Google Analytics
   var _gaq = _gaq || [];

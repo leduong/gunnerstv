@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 import os
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
+import pytz
 
 
 app = Flask(__name__)
@@ -50,20 +51,20 @@ def index():
 	fixtures = Fixture.query.all()
 	dates = []
 	for f in fixtures:
-		if f.date > now:
+		if f.date.date() >= now.date():
 			dates.append(f.date)
 	fixture_date = min(dates,key=lambda date : abs(now-date))
 	if fixture_date.date() == now.date():
 		today = True
 	remaining_day = (fixture_date.date() - now.date()).days
-	fixture = Fixture.query.filter_by(opponenent="Southampton").first()
+	fixture = Fixture.query.filter_by(date=fixture_date).first()
 
 	if Stream.query.all():
 		streams = Stream.query.all()
 	else:
 		streams = None
 
-	return render_template('index.html',streams=streams,fixture=fixture,today=True,remaining_day=remaining_day)
+	return render_template('index.html',streams=streams,fixture=fixture,today=today,remaining_day=remaining_day)
 
 
 
