@@ -1,11 +1,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% if today == True %}
-{% set share = 'Arsenal is playing today vs {{fixture.opponenent}} and I know which TV Channels or free live streams to watch thx to http://bit.ly/RoN3O0 #AFC' %}
-{%else %}
-{% set share = 'Thanks to @gunnerstv, When Arsenal is playing I know which TV channels or free live stream to watch -> http://bit.ly/RoN3O0 #gooners' %}
-{% endif %}
+{% set share = 'Thanks to @gunnerstv, When Arsenal is playing I know which TV channels or free live stream to watch -> http://bit.ly/RoN3O0 #AFC' %}
 
 
 	<title>Where can I watch Arsenal FC in the US or the UK?</title>
@@ -77,14 +73,17 @@ p {
 }
 .tv-channel {
 	margin-top:20px;
-	margin-bottom: 30px;
-	width: 510x;
+	margin-bottom: 20px;
+	width: 70%;
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.26);
+}
+
+.tv-channel a {
+	color:#aa0000;
 }
 
 th {
-	border-bottom: 2px solid #7D8077;
+	border-bottom: 1px solid lightgrey;
 	padding: 10px;
 	width: 168px;
 }
@@ -102,19 +101,35 @@ td {
 	background: url('/static/img/espn.png') no-repeat center;
 }
 
-a {
+#streamlink {
 	color:#aa0000;
-	font-weight: bold
+	font-size: 12px;
+	width: 70%;
+	text-align: right;
+	display: inline-block;
+	padding: 0;
+	border-top:1px solid lightgrey;
 }
+
 
 #streams {
-	background-color: rgba(255, 255, 255, 0.26);
-	width: 340px;
+	background-color:rgba(255, 0, 0, 0.43);
+	box-shadow:1px 1px 10px rgb(117, 117, 117);
 }
 
-ul {
+#streams ul {
 	list-style-type: none;
 	text-align: left;
+	margin:10px 0 10px 18px;
+}
+
+#streams a {
+	color:white;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
 }
 
 .sharing {
@@ -161,9 +176,9 @@ ul {
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
 						<h3 class="hidden-desktop">YES!</h3>
-						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }}</span></p>
-						<div class="center">
-							<table class="tv-channel center">
+						<p>The Gunners are playing {{at}} versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="time">{{ fixture.date.hour }}:{{ fixture.date.minute }} (GMT)</span></p>
+						<div class="center well tv-channel">
+							<table class="center pagination-centered">
 								<thead>
 									<tr>
 										<th>In UK</th>
@@ -174,12 +189,15 @@ ul {
 								<tbody>
 									<tr class="warning">
 										<td class="{{fixture.channel}}"></td>
+										<td>{{fixture.channel_us}}</td>
 										<td>Comming Soon...</td>
-										<td>Comming Soon...</td>
+									</tr>
+									<tr>
+										<td id="streamlink" colspan="3"><a href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a></td>
 									</tr>
 								</tbody>
 							</table>
-							<a href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a>
+
 							<!-- STREAM ACCORDEON -->
 							<div id="streams" class="collapse center">
 								{% if streams != None %}
@@ -191,13 +209,6 @@ ul {
 								{% else %}
 									<p>Come back 5 mintues before the match to see the Free live Stream Links!</p>
 								{% endif %}
-
-								<!-- <ul>
-									<li>stream</li>
-									<li>stream</li>
-									<li>stream</li>
-									<li>stream</li>
-								</ul> -->
 							</div>
 						</div>
 					{% else %}
@@ -212,7 +223,7 @@ ul {
 						<tr>
 							<td>
 								<div>
-									<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gunnerstv.herokuapp.com/" data-via="gunnersTV" data-text='{{share}}' data-lang="en">Tweet</a>
+									<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/RoN3O0" data-text="Thanks to @gunnerstv, When Arsenal is playing I know which TV channels or free live stream to watch -&gt;" data-hashtags="AFC">Tweet</a>
 								</div>
 							</td>
 							<td>
@@ -227,7 +238,7 @@ ul {
 	</div>
 	<div class="row">
 		<div class="span12 footer">
-				<p class="pull-right">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
+				<p class="pull-right center">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
 		</div>
 	</div>
 

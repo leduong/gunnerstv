@@ -5,14 +5,14 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ctpybgswckifxw:oP4tUGoWEVei50r5Qmk69o4JnN@ec2-54-243-248-219.compute-1.amazonaws.com:5432/d7rmlciec62tam'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ncgqudzbntrdew:B4byX_aOXb2G7UP40S11KIM7NA@ec2-54-243-249-191.compute-1.amazonaws.com:5432/dcjvicrign3o0r'
 db = SQLAlchemy(app)
 
 
 
 class Stream(db.Model):
-	id = db.Column(db.Integer)
-	link = db.Column(db.String(300), primary_key=True)
+	id = db.Column(db.Integer,primary_key=True)
+	link = db.Column(db.String(300))
 
 	def __init__(self,link):
 		self.link = link
