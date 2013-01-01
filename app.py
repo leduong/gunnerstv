@@ -63,7 +63,7 @@ def index():
 	else:
 		streams = None
 
-	return render_template('index.html',streams=streams,fixture=fixture,today=today,remaining_day=remaining_day)
+	return render_template('index.html',streams=streams,fixture=fixture,today=True,remaining_day=remaining_day)
 
 
 
