@@ -6,7 +6,7 @@ import pytz
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ncgqudzbntrdew:B4byX_aOXb2G7UP40S11KIM7NA@ec2-54-243-249-191.compute-1.amazonaws.com:5432/dcjvicrign3o0r'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://msffbjxiwtzldz:ePieQt98kShC_Aiv1V7Sym8qo_@ec2-54-243-228-246.compute-1.amazonaws.com:5432/dfh6qrigtdi24o'
 db = SQLAlchemy(app)
 
 

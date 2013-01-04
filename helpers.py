@@ -25,6 +25,34 @@ def get_us_data():
 			else:
 				print "I should add this date for US viewer"
 
+#Scrap US Channel on Arsenal.com blog
+def get_us_channel():
+	ustz = pytz.timezone('US/Eastern')
+	uktz = pytz.timezone('GMT')
+	url ="http://www.arsenal.com/usa/news/features/where-to-watch-arsenal"
+	r = requests.get(url)
+	soup = BeautifulSoup(r.text,'lxml')
+	data = soup.find('h4',class_="full-width").find_next_sibling('p')
+	if len(data.find_all('span')) % 3 == 0:
+		total_fixtures = len(data.find_all('span')) / 3
+	for team in data.find_all('strong'):
+		name = team.string.strip()
+		date = team.find_previous_sibling('span').string.strip().strip(':')
+		channel_us = team.find_next_sibling('span').string.strip()
+		if name.find('@') == 0:
+			name = name[name.find('@')+2:]
+		elif name.find('vs') == 0:
+			name = name[name.find('vs')+3:]
+		else:
+			print "??? BUG in get_us_channel?"
+		date = datetime.strptime(date,'%b. %d - %I:%M%p')
+		us_date = ustz.localize(date)
+		uk_date = us_date.astimezone(uktz)
+		if Fixture.query.filter_by(date=date).first():
+			print "found a match, adding channel_us"
+			entry = Fixture.query.filter_by(date=date).first()
+			entry.channel_us = channel_us
+			db.session.commit()
 
 #scrap date on gunners
 def scrap_fixture_time():
@@ -99,8 +127,8 @@ def get_stream():
 	print "Finished getting new stream. Deleted %s and added %s streams"%(deleted,added)
 
 scrap_fixture_time()
-get_us_data()
-get_stream()
+get_us_channel()
+# get_stream()
 
 
 
