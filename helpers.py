@@ -6,6 +6,8 @@ import json
 import pytz
 import re
 
+
+
 #Scrap fixtures from premierleague.com
 def get_us_data():
 	url = "http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:US/clubId:1006/rangeType:dateMonth"
@@ -54,6 +56,8 @@ def get_us_channel():
 		for f in fix:
 			if f.date.date() == uk_date.date():
 				print "found a match. Adding us channel"
+				#convert channel name
+				channel_us = channel_us.replace(' ','-').lower()
 				f.channel_us = channel_us
 				db.session.commit()
 
