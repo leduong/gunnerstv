@@ -29,6 +29,7 @@ def get_us_data():
 def get_us_channel():
 	ustz = pytz.timezone('US/Eastern')
 	uktz = pytz.timezone('GMT')
+	now = datetime.now()
 	url ="http://www.arsenal.com/usa/news/features/where-to-watch-arsenal"
 	r = requests.get(url)
 	soup = BeautifulSoup(r.text,'lxml')
@@ -37,7 +38,7 @@ def get_us_channel():
 		total_fixtures = len(data.find_all('span')) / 3
 	for team in data.find_all('strong'):
 		name = team.string.strip()
-		date = team.find_previous_sibling('span').string.strip().strip(':')
+		date = team.find_previous_sibling('span').string.strip().strip(':') + " " + str(now.year)
 		channel_us = team.find_next_sibling('span').string.strip()
 		if name.find('@') == 0:
 			name = name[name.find('@')+2:]
@@ -45,19 +46,21 @@ def get_us_channel():
 			name = name[name.find('vs')+3:]
 		else:
 			print "??? BUG in get_us_channel?"
-		date = datetime.strptime(date,'%b. %d - %I:%M%p')
+		date = datetime.strptime(date,'%b. %d - %I:%M%p %Y')
 		us_date = ustz.localize(date)
 		uk_date = us_date.astimezone(uktz)
-		if Fixture.query.filter_by(date=date).first():
-			print "found a match, adding channel_us"
-			entry = Fixture.query.filter_by(date=date).first()
-			entry.channel_us = channel_us
-			db.session.commit()
+		print uk_date,date,us_date
+		fix = Fixture.query.all()
+		for f in fix:
+			if f.date.date() == uk_date.date():
+				print "found a match. Adding us channel"
+				f.channel_us = channel_us
+				db.session.commit()
 
 #scrap date on gunners
 def scrap_fixture_time():
 	#Reset db for testing
-	db.drop_all()
+	# db.drop_all()
 	db.create_all()
 	#get date variables
 	uktz = pytz.timezone('GMT')
@@ -126,7 +129,7 @@ def get_stream():
 		added += 1
 	print "Finished getting new stream. Deleted %s and added %s streams"%(deleted,added)
 
-scrap_fixture_time()
+#scrap_fixture_time()
 get_us_channel()
 # get_stream()
 

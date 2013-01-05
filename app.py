@@ -6,7 +6,7 @@ import pytz
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://msffbjxiwtzldz:ePieQt98kShC_Aiv1V7Sym8qo_@ec2-54-243-228-246.compute-1.amazonaws.com:5432/dfh6qrigtdi24o'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qjfzfnhyhuugtm:2CHyGsZ9ONlw7oShE9bLS5ZY_3@ec2-54-243-182-70.compute-1.amazonaws.com:5432/d7trb2ktuglkdb'
 db = SQLAlchemy(app)
 
 
@@ -41,6 +41,11 @@ class Fixture(db.Model):
 
     def __repr__(self):
         return '<fixure against %r in %r at home? %r on %r channel %r>' % (self.opponenent,self.competition,self.home,self.date,self.channel)
+
+class Channel(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	channel = db.Column(db.String(140))
+	country	= db.Column(db.String(100))
 
 
 
