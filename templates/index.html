@@ -12,6 +12,7 @@
 	<link rel="icon" type="image/png" href="/static/img/icon.png">
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/jquery.backstretch.min.js"></script>
+	<script src="/static/js/moment.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
@@ -264,13 +265,16 @@ $(document).ready(function(){
 
 	$.backstretch("/static/img/bg2.jpeg");
 	$('.backstretch').addClass('background-opacity')
-	$('.localtime').tooltip('show')
+	$('.localtime').tooltip()
+	d = '{{fixture.date}}'
+	date = new moment.utc(d, "YYYY-MM-DD HH:mm:ss")
+	$('.localtime').append(date.local().format('HH:mm'))
 
 })
 
-d = '{{fixture.date}} UTC'
-date = new Date(d)
-$('.localtime').append(date.getHours()+':'+date.getMinutes())
+// d = '{{fixture.date}} UTC'
+// date = new Date(d)
+// $('.localtime').append(date.getHours()+':'+date.getMinutes())
 
 
 //Google Analytics
