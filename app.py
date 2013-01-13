@@ -6,8 +6,8 @@ import pytz
 
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qjfzfnhyhuugtm:2CHyGsZ9ONlw7oShE9bLS5ZY_3@ec2-54-243-182-70.compute-1.amazonaws.com:5432/d7trb2ktuglkdb'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gunnerstv.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ocpgimlrwlcteo:HZYuxvMgXn2knI5K60WRUupR9v@ec2-54-243-181-97.compute-1.amazonaws.com:5432/d96j5v40v2do68'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gunnerstv.db'
 
 db = SQLAlchemy(app)
 
