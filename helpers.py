@@ -1,31 +1,31 @@
 from bs4 import BeautifulSoup
 import requests
-from app import db,Fixture,Stream
+from app import db,Fixture,Stream,Channel
 from datetime import datetime,timedelta
 import json
 import pytz
 import re
 
 
-
 #Scrap fixtures from premierleague.com
-def get_us_data():
-	url = "http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:US/clubId:1006/rangeType:dateMonth"
-	r = requests.get(url)
-	data = r.json
-	uktz = pytz.timezone('GMT')
-	ustz = pytz.timezone('US/Eastern')
-	for date in data['dateList']:
-		for broadcast in date['broadcastList']:
-			channel_us = broadcast['channel']
-			date = broadcast['date'] + " " + broadcast['time']
-			date = datetime.strptime(date,'%A %d %B %Y %H:%M')
-			if Fixture.query.filter_by(date=date).first():
-				entry = Fixture.query.filter_by(date=date).first()
-				entry.channel_us = channel_us
-				db.session.commit()
-			else:
-				print "I should add this date for US viewer"
+def get_world_data():
+	countries = ['US', 'SE','NO','AU','IE','IN']
+	for country in countries:
+		url = "http://www.premierleague.com/content/premierleague-ajax/broadcastschedule.tv.ajax/season:2012-2013/country:%/clubId:1006/rangeType:dateMonth"%country
+		r = requests.get(url)
+		data = r.json
+		for date in data['dateList']:
+			for broadcast in date['broadcastList']:
+				channel = broadcast['channel']
+				date = broadcast['date'] + " " + broadcast['time']
+				date = datetime.strptime(date,'%A %d %B %Y %H:%M')
+				if Fixture.query.filter_by(date=date).first():
+					entry = Fixture.query.filter_by(date=date).first()
+					entry.channel.append(Channel(channel,country))
+					print entry
+					db.session.commit()
+				else:
+					print "I should add this date for %s viewer"%country
 
 #Scrap US Channel on Arsenal.com blog
 def get_us_channel():
@@ -57,14 +57,13 @@ def get_us_channel():
 			if f.date.date() == uk_date.date():
 				print "found a match. Adding us channel"
 				#convert channel name
-				channel_us = channel_us.replace(' ','-').lower()
-				f.channel_us = channel_us
+				channel_us = Channel(channel_us.replace(' ','-').lower(),"US")
+				f.channel.append(channel_us)
 				db.session.commit()
 
 #scrap date on gunners
 def scrap_fixture_time():
-	#Reset db for testing
-	# db.drop_all()
+	db.drop_all()
 	db.create_all()
 	#get date variables
 	uktz = pytz.timezone('GMT')
@@ -99,44 +98,19 @@ def scrap_fixture_time():
 				day = row.find('td',class_="first").string
 				if day.find('/'):
 					day = day.split('/')[0]
-				if month == 'December':
-					year = '2012'
-				else:
-					year = '2013'
+				year = str(current_date.year)
 				competition = row.find('td',class_="competition").string
 				date = day+ " " +month+ " " + year + " " + time
 				date = datetime.strptime(date,'%d %B %Y %H:%M')
 				date = uktz.localize(date)
-				channel_us = None
-				fixture = Fixture(opponenent, home, channel,channel_us, date, competition)
+				chan = Channel(channel,"GB")
+				fixture = Fixture(opponenent, home, date, competition,[chan])
 				db.session.add(fixture)
+				db.session.add(chan)
 				db.session.commit()
 
-def get_stream():
-	url = "http://atdhe.eu/soccer"
-	html = requests.get(url).text
-	soup = BeautifulSoup(html,'lxml')
-	deleted = 0
-	added = 0
-	for stream in Stream.query.all():
-		db.session.delete(stream)
-		db.session.commit()
-		print "deleting..."
-		deleted += 1
-
-	streams = soup.find_all(text=re.compile('Arsenal'))
-	for s in streams:
-		link = Stream(s.parent['href'])
-		db.session.add(link)
-		db.session.commit()
-		print "adding..."
-		added += 1
-	print "Finished getting new stream. Deleted %s and added %s streams"%(deleted,added)
-
-#scrap_fixture_time()
+scrap_fixture_time()
 get_us_channel()
-# get_stream()
-
 
 
 

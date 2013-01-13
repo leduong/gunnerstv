@@ -168,6 +168,46 @@ a:hover {
 	font-weight: bold
 }
 
+
+.modal {
+  top: 0;
+  left: 5%;
+  width: 90%;
+  margin: 0;
+}
+
+.modal-body {
+  max-height: 100%;
+}
+
+.modal.fade.in {
+top: 15%;
+}
+
+#streaming #menu {
+	width: 25%;
+	float: right;
+	border-left: 1px solid #ddd;
+	padding-left: 20px;
+
+}
+
+.tab-content {
+	height: 400px;
+	overflow: scroll;
+
+}
+#streaming #stream-iframe {
+	float: left;
+	width: 70%;
+	overflow:hidden;
+	background: url('/static/img/select_stream.png') no-repeat center;
+	height: 500px;
+}
+iframe {
+	overflow:hidden;
+}
+
 </style>
 
 </head>
@@ -187,7 +227,7 @@ a:hover {
 			<div class="span1"></div>
 			<div class="span10 pagination-centered">
 				<div class="content">
-					<h1>Are Arsenal On TV Today?</h1>
+					<h1>Are Arsenal Playing Today?</h1>
 
 					{% if today == True %}
 						<h2 class="hidden-phone hidden-tablet">YES!</h2>
@@ -204,34 +244,24 @@ a:hover {
 								</thead>
 								<tbody>
 									<tr class="channels">
-										<td class="{{fixture.channel}}"></td>
-										<td class="{{fixture.channel_us}}"></td>
+
+										<td class="SS1"></td>
+										<td class="fox-soccer-channel"></td>
+<!-- 										<td class="{{fixture.channel}}"></td>
+										<td class="{{fixture.channel_us}}"></td> -->
 										<td>Coming Soon...</td>
 									</tr>
 									<tr>
-										<td id="streamlink" colspan="3"><a onClick="_gaq.push(['_trackEvent', 'streams', 'open', '{{ fixture.opponenent }}']);" href="#" data-toggle="collapse" data-target="#streams">Not in the UK or the US? Check out these FREE live streams...</a></td>
+										<td id="streamlink" colspan="3"><a onClick="_gaq.push(['_trackEvent', 'streams', 'open', '{{ fixture.opponenent }}']);" href="#streaming" data-toggle="modal">Not in the UK or the US? Check out these FREE live streams...</a></td>
 									</tr>
 								</tbody>
 							</table>
-
-							<!-- STREAM ACCORDEON -->
-							<div id="streams" class="collapse center">
-								{% if streams != None %}
-									<ul>
-									{% for s in streams %}
-										<li><a href="{{s.link}}">Stream {{s.id}} (via lshunter.tv)</a></li>
-									{% endfor %}
-									</ul>
-								{% else %}
-									<p>Come back 5 minutes before the match to see the Free live Stream Links!</p>
-								{% endif %}
-							</div>
 						</div>
 					{% else %}
 					<h2 class="hidden-phone hidden-tablet">NO :(</h2>
 					<h3 class="hidden-desktop">NO :(</h3>
 
-					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span class="localtime"></span></p>
+					<p>The Gunners will play {{at}} in <span class="days">{{remaining_day}}</span> days versus <span class="opponenent">{{ fixture.opponenent }}</span> at <span  rel="tooltip" data-title="This is your local time!" class="localtime"></span></p>
 					{% endif %}
 				</div>
 				<div class="sharing center">
@@ -257,8 +287,11 @@ a:hover {
 				<p class="pull-left">Find a bug or have feedback?<a href="http://twitter.com/copypastaa" target="_blank"> Contact me via Twitter</a></p>
 				<p class="pull-right">Handcrafted in London by <a href="http://twitter.com/copypastaa" target="_blank">Copypastaa</a>
 		</div>
-	</div>
 
+	<!-- Streaming Modal -->
+	<div id="streaming" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+	</div>
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -266,15 +299,45 @@ $(document).ready(function(){
 	$.backstretch("/static/img/bg2.jpeg");
 	$('.backstretch').addClass('background-opacity')
 	$('.localtime').tooltip()
+	//Convert datetime object to localtime
 	d = '{{fixture.date}}'
 	date = new moment.utc(d, "YYYY-MM-DD HH:mm:ss")
 	$('.localtime').append(date.local().format('HH:mm'))
 
+	$('#streamlink a').on("click", function(){
+		$('#streaming').load('/static/watching.html', function(){
+			$('#watching-menu a:first').tab('show');
+			// Switching Channel
+			$('#streamslist a').on('click',function(){
+				var src = $(this).attr('data-src');
+				var width = $(this).attr('data-width');
+				var height = $(this).attr('data-height');
+				$('#stream-iframe iframe').attr({'src':src,'width':width,'height':height});
+				$('#watching-menu a:last').tab('show');
+			});
+			//Checking if there's streams
+			if (streams) {
+				for (s in streams){
+				$('#streamslist ul').append('<li><a href="#" data-src="'+streams[s].source+'"data-width="'+streams[s].width+'" data-height="'+streams[s].height+'" >Stream '+s+' (Supported)</a></li>')
+				}
+			}
+			else {
+				$('#streamslist').append('Come back 10 minutes before the beginning of the game to get the best & freshest streams!')
+			}
+		});
+	});
+
+	$('#streaming').on('hidden', function () {
+		$('#streaming .modal-body').remove()
+	});
+
 })
 
-// d = '{{fixture.date}} UTC'
-// date = new Date(d)
-// $('.localtime').append(date.getHours()+':'+date.getMinutes())
+//Populate Stream list
+var streams = {{streams|tojson|safe}}
+
+//Channel json
+var channels = {{channels|tojson|safe}}
 
 
 //Google Analytics

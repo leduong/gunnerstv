@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, jsonify, render_template
 import os
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -6,47 +6,63 @@ import pytz
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qjfzfnhyhuugtm:2CHyGsZ9ONlw7oShE9bLS5ZY_3@ec2-54-243-182-70.compute-1.amazonaws.com:5432/d7trb2ktuglkdb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qjfzfnhyhuugtm:2CHyGsZ9ONlw7oShE9bLS5ZY_3@ec2-54-243-182-70.compute-1.amazonaws.com:5432/d7trb2ktuglkdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gunnerstv.db'
+
 db = SQLAlchemy(app)
 
+
+fixture_channels = db.Table('fixture_channels',
+db.Column('channel_id', db.Integer, db.ForeignKey('channel.id')),
+db.Column('fixture_id', db.Integer, db.ForeignKey('fixture.id'))
+)
+
+
+class Fixture(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    opponenent = db.Column(db.String(80))
+    home = db.Column(db.Boolean(),default=True)
+    date = db.Column(db.DateTime)
+    competition = db.Column(db.String(140))
+    channel = db.relationship('Channel',secondary=fixture_channels, backref=db.backref('fixtures', lazy='dynamic'))
+
+    def __init__(self, opponenent, home, date, competition,channel):
+        self.opponenent = opponenent
+        self.home = home
+        self.date = date
+        self.competition = competition
+        self.channel = channel
+
+    def __repr__(self):
+        return '<fixure against %r in %r on %r>' % (self.opponenent,self.competition, self.channel)
+
+
+class Channel(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	channelname = db.Column(db.String(140))
+	country	= db.Column(db.String(100))
+
+	def __init__(self,channelname,country):
+		self.channelname = channelname
+		self.country =country
+
+	def __repr__(self):
+		return '<Channel %r in %r>'%(self.channelname,self.country)
 
 
 class Stream(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
-	link = db.Column(db.String(300))
+	source = db.Column(db.String(300))
+	width = db.Column(db.Integer)
+	height = db.Column(db.Integer)
 
-	def __init__(self,link):
-		self.link = link
+	def __init__(self,source,width,height):
+		self.source = source
+		self.width = width
+		self.height = height
 
 	def __repr___(self):
-		return '<Link is %r>'%self.link
-
-
-class Fixture(db.Model):
-    id = db.Column(db.Integer)
-    opponenent = db.Column(db.String(80))
-    home = db.Column(db.Boolean(),default=True)
-    channel = db.Column(db.String(120))
-    channel_us = db.Column(db.String(120))
-    date = db.Column(db.DateTime,primary_key=True)
-    competition = db.Column(db.String(140))
-
-    def __init__(self, opponenent, home, channel, channel_us, date, competition):
-        self.opponenent = opponenent
-        self.home = home
-        self.channel = channel
-        self.channel_us = channel_us
-        self.date = date
-        self.competition = competition
-
-    def __repr__(self):
-        return '<fixure against %r in %r at home? %r on %r channel %r>' % (self.opponenent,self.competition,self.home,self.date,self.channel)
-
-class Channel(db.Model):
-	id = db.Column(db.Integer,primary_key=True)
-	channel = db.Column(db.String(140))
-	country	= db.Column(db.String(100))
-
+		return '<source is %r>'%self.source
 
 
 @app.route('/', methods=['GET'])
@@ -64,12 +80,22 @@ def index():
 	remaining_day = (fixture_date.date() - now.date()).days
 	fixture = Fixture.query.filter_by(date=fixture_date).first()
 
+	#create Country channel json
+	channels = {}
+	for channel in fixture.channel:
+		channels[channel.channelname] = channel.country
+
+
+	#create stream json
 	if Stream.query.all():
-		streams = Stream.query.all()
+		s = Stream.query.all()
+		streams = {}
+		for t in s:
+			streams[t.id] = {'source':t.source,'width':t.width,'height':t.height}
 	else:
 		streams = None
 
-	return render_template('index.html',streams=streams,fixture=fixture,today=today,remaining_day=remaining_day)
+	return render_template('index.html',streams=streams,channels=channels,fixture=fixture,today=today,remaining_day=remaining_day)
 
 
 
