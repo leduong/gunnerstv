@@ -315,6 +315,7 @@ $(document).ready(function(){
 				for (s in streams){
 				$('#streamslist ul').append('<li><a href="#" data-src="'+streams[s].source+'"data-width="'+streams[s].width+'" data-height="'+streams[s].height+'" >Stream '+s+' (Supported)</a></li>')
 				}
+
 				streamFrameLink()
 			}
 			else {
@@ -322,7 +323,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-
 	$('#streaming').on('hidden', function () {
 		$('#streaming .modal-body').remove()
 	});
