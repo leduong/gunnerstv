@@ -299,6 +299,14 @@ iframe {
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	$('#streamslist a').on('click',function(){
+					var src = $(this).attr('data-src');
+					var width = $(this).attr('data-width');
+					var height = $(this).attr('data-height');
+					$('#stream-iframe iframe').attr({'src':src,'width':width,'height':height});
+					$('#watching-menu a:last').tab('show');
+				});
+
 
 	$.backstretch("/static/img/bg2.jpeg");
 	$('.backstretch').addClass('background-opacity')
