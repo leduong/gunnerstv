@@ -315,7 +315,6 @@ $(document).ready(function(){
 				for (s in streams){
 				$('#streamslist ul').append('<li><a href="#" data-src="'+streams[s].source+'"data-width="'+streams[s].width+'" data-height="'+streams[s].height+'" >Stream '+s+' (Supported)</a></li>')
 				}
-
 				$('#streamslist a').on('click',function(){
 					var src = $(this).attr('data-src');
 					var width = $(this).attr('data-width');
