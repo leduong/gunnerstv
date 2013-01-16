@@ -316,7 +316,13 @@ $(document).ready(function(){
 				$('#streamslist ul').append('<li><a href="#" data-src="'+streams[s].source+'"data-width="'+streams[s].width+'" data-height="'+streams[s].height+'" >Stream '+s+' (Supported)</a></li>')
 				}
 
-				streamFrameLink()
+				$('#streamslist a').on('click',function(){
+					var src = $(this).attr('data-src');
+					var width = $(this).attr('data-width');
+					var height = $(this).attr('data-height');
+					$('#stream-iframe iframe').attr({'src':src,'width':width,'height':height});
+					$('#watching-menu a:last').tab('show');
+				});
 			}
 			else {
 				$('#streamslist').append('Come back 10 minutes before the beginning of the game to get the best & freshest streams!')
